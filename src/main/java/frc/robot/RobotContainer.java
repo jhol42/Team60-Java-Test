@@ -21,19 +21,21 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final DriveTrain m_drivetrain = new DriveTrain();
 
   private final CommandXboxController m_driverController = new CommandXboxController(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+  public RobotContainer() 
+  {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_drivetrain.setDefaultCommand(m_drivetrain.tankDriveCommand(() -> m_driverController.getLeftY(), () -> m_driverController.getRightY()));
-
+    m_drivetrain.setDefaultCommand(
+      m_drivetrain.tankDriveCommand(
+        () -> m_driverController.getLeftY(), 
+        () -> m_driverController.getRightY()));
   }
 
   /**
@@ -52,7 +54,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() 
+  {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }

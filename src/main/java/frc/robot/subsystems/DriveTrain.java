@@ -23,7 +23,6 @@ public class DriveTrain extends SubsystemBase  {
   private MotorControllerGroup RightGroup = new MotorControllerGroup(RFMotor, RBMotor);
   private MotorControllerGroup LeftGroup = new MotorControllerGroup(LFMotor, LBMotor);
 
-
   private final DifferentialDrive m_drive = new DifferentialDrive(LeftGroup, RightGroup);
 
   // private final Encoder m_leftEncoder = new Encoder(1, 2);
@@ -54,5 +53,4 @@ public class DriveTrain extends SubsystemBase  {
   public Command tankDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {
     return Commands.run(() -> m_drive.tankDrive(fwd.getAsDouble(), rot.getAsDouble()), this);
   }
-
 }
