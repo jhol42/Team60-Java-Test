@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,11 +21,13 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final DriveTrain m_drivetrain = new DriveTrain();
+  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final DriveTrain drivetrain = new DriveTrain();
+  private final Arm arm = new Arm();
 
-  private final CommandXboxController m_driverController = new CommandXboxController(0);
+  private final CommandXboxController driverController = new CommandXboxController(0);
+  private final CommandXboxController armController = new CommandXboxController(1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 
@@ -32,10 +35,15 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_drivetrain.setDefaultCommand(
-      m_drivetrain.tankDriveCommand(
-        () -> m_driverController.getLeftY(), 
-        () -> m_driverController.getRightY()));
+    drivetrain.setDefaultCommand(
+      drivetrain.tankDriveCommand(
+        () -> driverController.getLeftY(), 
+        () -> driverController.getRightY()));
+
+    arm.setDefaultCommand(
+      arm.moveArm(
+        () -> armController.getLeftY(), 
+        () -> armController.getRightY()));
   }
 
   /**
@@ -57,6 +65,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() 
   {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    //return m_autoCommand;
+    return null;
   }
 }
