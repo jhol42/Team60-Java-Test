@@ -4,6 +4,8 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class NavX extends SubsystemBase {
     AHRS ahrs;
@@ -25,5 +27,18 @@ public class NavX extends SubsystemBase {
             } catch (RuntimeException ex) {
                 DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
             }
+    }
+
+    @Override
+    public void periodic() {
+        double pitchAngleDegrees = ahrs.getPitch();
+        double rollAngleDegrees = ahrs.getRoll();
+        double headingAngleDegrees = ahrs.getAngle();
+
+        // post to smart dashboard periodically
+        SmartDashboard.putNumber("Pitch", pitchAngleDegrees);
+        SmartDashboard.putNumber("Roll", rollAngleDegrees);
+        SmartDashboard.putNumber("Heading", headingAngleDegrees);
+
     }
 }

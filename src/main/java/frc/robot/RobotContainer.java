@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.NavX;
+import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -25,6 +27,8 @@ public class RobotContainer {
   // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final DriveTrain drivetrain = new DriveTrain();
   private final Arm arm = new Arm();
+  private final LimeLight limeLight = new LimeLight();
+  private final NavX navX = new NavX();
 
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController armController = new CommandXboxController(1);
