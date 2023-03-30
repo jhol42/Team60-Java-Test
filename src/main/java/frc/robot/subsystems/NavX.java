@@ -19,6 +19,7 @@ public class NavX extends SubsystemBase {
     private Timer periodicDeltaTimer = new Timer();
 
     public NavX(){
+        periodicDeltaTimer.start();
         try {
             /***********************************************************************
              * navX-MXP: - Communication via RoboRIO MXP (SPI, I2C) and USB. - See
@@ -33,9 +34,9 @@ public class NavX extends SubsystemBase {
              * Multiple navX-model devices on a single robot are supported.
              ************************************************************************/
                 ahrs = new AHRS(SPI.Port.kMXP);
-            } catch (RuntimeException ex) {
-                DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-            }
+        } catch (RuntimeException ex) {
+            DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        }
     }
 
     @Override
@@ -43,28 +44,31 @@ public class NavX extends SubsystemBase {
         periodicDeltaTimer.stop();
         double timeDelta = periodicDeltaTimer.get(); // in seconds.
 
-        // double newPitchAngleDegrees = ahrs.getPitch();
-        // double newRollAngleDegrees = ahrs.getRoll();
-        double newHeadingAngleDegrees = ahrs.getAngle();
+        // Make sure timeDelta is valid to prevent division by zero.
+        if(timeDelta > 0)
+        {
+            // double newPitchAngleDegrees = ahrs.getPitch();
+            // double newRollAngleDegrees = ahrs.getRoll();
+            double newHeadingAngleDegrees = ahrs.getAngle();
 
-        // angular velocity in degrees per second.
-        // keep old value for now to compute the acceleration.
-        double newAngularVelocity = (newHeadingAngleDegrees - headingAngleDegrees) / timeDelta;
+            // angular velocity in degrees per second.
+            // keep old value for now to compute the acceleration.
+            double newAngularVelocity = (newHeadingAngleDegrees - headingAngleDegrees) / timeDelta;
 
-        // angular acceleration degrees per second^2.
-        angularAcceleration = (newAngularVelocity - angularVelocity) / timeDelta;
+            // angular acceleration degrees per second^2.
+            angularAcceleration = (newAngularVelocity - angularVelocity) / timeDelta;
 
-        // now set the current velocity.
-        angularVelocity = newAngularVelocity;
+            // now set the current velocity.
+            angularVelocity = newAngularVelocity;
 
-        // post to smart dashboard periodically
-        SmartDashboard.putNumber("Pitch", pitchAngleDegrees);
-        SmartDashboard.putNumber("Roll", rollAngleDegrees);
-        SmartDashboard.putNumber("Heading", headingAngleDegrees);
-        SmartDashboard.putNumber("Angular Velocity", angularVelocity);
-        SmartDashboard.putNumber("Angular Acceleration", angularAcceleration);
-
+            // post to smart dashboard periodically
+            SmartDashboard.putNumber("Pitch", pitchAngleDegrees);
+            SmartDashboard.putNumber("Roll", rollAngleDegrees);
+            SmartDashboard.putNumber("Heading", headingAngleDegrees);
+            SmartDashboard.putNumber("Angular Velocity", angularVelocity);
+            SmartDashboard.putNumber("Angular Acceleration", angularAcceleration);
+            SmartDashboard.putNumber("NavX Time Delta", timeDelta);
+        }
         periodicDeltaTimer.reset();
-
     }
 }
