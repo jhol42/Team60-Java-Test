@@ -40,35 +40,47 @@ public class NavX extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-        periodicDeltaTimer.stop();
-        double timeDelta = periodicDeltaTimer.get(); // in seconds.
-
-        // Make sure timeDelta is valid to prevent division by zero.
-        if(timeDelta > 0)
+    public void periodic() 
+    {
+        try
         {
-            // double newPitchAngleDegrees = ahrs.getPitch();
-            // double newRollAngleDegrees = ahrs.getRoll();
-            double newHeadingAngleDegrees = ahrs.getAngle();
+            periodicDeltaTimer.stop();
+            double timeDelta = periodicDeltaTimer.get(); // in seconds.
 
-            // angular velocity in degrees per second.
-            // keep old value for now to compute the acceleration.
-            double newAngularVelocity = (newHeadingAngleDegrees - headingAngleDegrees) / timeDelta;
+            // Make sure timeDelta is valid to prevent division by zero.
+            if(timeDelta > 0)
+            {
+                // double newPitchAngleDegrees = ahrs.getPitch();
+                // double newRollAngleDegrees = ahrs.getRoll();
+                double newHeadingAngleDegrees = ahrs.getAngle();
 
-            // angular acceleration degrees per second^2.
-            angularAcceleration = (newAngularVelocity - angularVelocity) / timeDelta;
+                // angular velocity in degrees per second.
+                // keep old value for now to compute the acceleration.
+                double newAngularVelocity = (newHeadingAngleDegrees - headingAngleDegrees) / timeDelta;
 
-            // now set the current velocity.
-            angularVelocity = newAngularVelocity;
+                // angular acceleration degrees per second^2.
+                angularAcceleration = (newAngularVelocity - angularVelocity) / timeDelta;
 
-            // post to smart dashboard periodically
-            SmartDashboard.putNumber("Pitch", pitchAngleDegrees);
-            SmartDashboard.putNumber("Roll", rollAngleDegrees);
-            SmartDashboard.putNumber("Heading", headingAngleDegrees);
-            SmartDashboard.putNumber("Angular Velocity", angularVelocity);
-            SmartDashboard.putNumber("Angular Acceleration", angularAcceleration);
-            SmartDashboard.putNumber("NavX Time Delta", timeDelta);
+                // now set the current velocity.
+                angularVelocity = newAngularVelocity;
+
+                // post to smart dashboard periodically
+                SmartDashboard.putNumber("Pitch", pitchAngleDegrees);
+                SmartDashboard.putNumber("Roll", rollAngleDegrees);
+                SmartDashboard.putNumber("Heading", headingAngleDegrees);
+                SmartDashboard.putNumber("Angular Velocity", angularVelocity);
+                SmartDashboard.putNumber("Angular Acceleration", angularAcceleration);
+                SmartDashboard.putNumber("NavX Time Delta", timeDelta);
+            }
         }
-        periodicDeltaTimer.reset();
+        catch(Exception ex)
+        {
+
+        }
+        finally
+        {
+            periodicDeltaTimer.reset();
+            periodicDeltaTimer.start();
+        }
     }
 }
