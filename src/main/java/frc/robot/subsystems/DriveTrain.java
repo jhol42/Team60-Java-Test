@@ -5,8 +5,11 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import java.util.function.DoubleSupplier;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -15,20 +18,26 @@ public class DriveTrain extends SubsystemBase  {
   public static int LeftBack = 1;
   public static int RightFront = 2;
   public static int RightBack = 3;
-  private WPI_TalonSRX lfMotor = new WPI_TalonSRX(LeftFront);
-  private WPI_TalonSRX lbMotor  = new WPI_TalonSRX(LeftBack);
-  private WPI_TalonSRX rfMotor = new WPI_TalonSRX(RightFront);
-  private WPI_TalonSRX rbMotor  = new WPI_TalonSRX(RightBack);
+  
+  // Talon SRX
+  // private WPI_TalonSRX lfMotor = new WPI_TalonSRX(LeftFront);
+  // private WPI_TalonSRX lbMotor  = new WPI_TalonSRX(LeftBack);
+  // private WPI_TalonSRX rfMotor = new WPI_TalonSRX(RightFront);
+  // private WPI_TalonSRX rbMotor  = new WPI_TalonSRX(RightBack);
+
+  // SparkMax
+  private CANSparkMax lfMotor = new CANSparkMax(LeftFront, MotorType.kBrushed);
+  private CANSparkMax lbMotor  = new CANSparkMax(LeftBack, MotorType.kBrushed);
+  private CANSparkMax rfMotor = new CANSparkMax(RightFront, MotorType.kBrushed);
+  private CANSparkMax rbMotor  = new CANSparkMax(RightBack, MotorType.kBrushed);
 
   private MotorControllerGroup rightGroup = new MotorControllerGroup(rfMotor, rbMotor);
   private MotorControllerGroup leftGroup = new MotorControllerGroup(lfMotor, lbMotor);
-
+  
   private final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
 
-  // private final Encoder m_leftEncoder = new Encoder(1, 2);
-  // private final Encoder m_rightEncoder = new Encoder(3, 4);
-  // private final AnalogInput m_rangefinder = new AnalogInput(6);
-  // private final AnalogGyro m_gyro = new AnalogGyro(1);
+  private final RelativeEncoder leftEncoder = lfMotor.getEncoder();
+  private final RelativeEncoder rightEncoder = rfMotor.getEncoder();
 
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
@@ -39,7 +48,27 @@ public class DriveTrain extends SubsystemBase  {
     addChild("drive", drive);
   }
 
- 
+  public class EncoderPositions{
+    public EncoderPositions(double left, double right)
+    {
+      this.left = left;
+      this.right = right;
+    }
+    public double left;
+    public double right;
+  }
+
+  public void zeroEncoders(){
+    leftEncoder.setPosition(0);
+    rightEncoder.setPosition(0);
+  }
+
+  public EncoderPositions getEncoderPositions(){
+    return new EncoderPositions(
+      leftEncoder.getPosition(),
+      rightEncoder.getPosition());
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
