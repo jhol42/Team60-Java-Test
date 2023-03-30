@@ -8,16 +8,39 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class LimeLight extends SubsystemBase {
     private NetworkTable table;
-
+    NetworkTableEntry tx;
+    NetworkTableEntry ty;
+    NetworkTableEntry ta;
+    NetworkTableEntry ts;
+    
     public LimeLight() {
         table = NetworkTableInstance.getDefault().getTable("limelight");
+        tx = table.getEntry("tx");
+        ty = table.getEntry("ty");
+        ta = table.getEntry("ta");
+        ta = table.getEntry("ta");
+        ts = table.getEntry("ts");
+
+    }
+
+    public double getXOffsetAngle(){
+        return tx.getDouble(0.0);
+    }
+
+    public double getYOffsetAngle(){
+        return ty.getDouble(0.0);
+    }
+
+    public double getTargetAngle(){
+        return ta.getDouble(0.0);
+    }
+
+    public double getTargetSkew(){
+        return ts.getDouble(0.0);
     }
 
     @Override
     public void periodic() {
-        NetworkTableEntry tx = table.getEntry("tx");
-        NetworkTableEntry ty = table.getEntry("ty");
-        NetworkTableEntry ta = table.getEntry("ta");
 
         // read values periodically
         double x = tx.getDouble(0.0);
