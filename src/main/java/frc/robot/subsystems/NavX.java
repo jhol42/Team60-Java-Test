@@ -5,10 +5,19 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 
 
 public class NavX extends SubsystemBase {
     AHRS ahrs;
+    private double pitchAngleDegrees = 0;
+    private double rollAngleDegrees = 0;
+    private double headingAngleDegrees = 0;
+    private double angularVelocity = 0;
+    private double angularAcceleration = 0;
+    
+    private Timer periodicDeltaTimer = new Timer();
+
     public NavX(){
         try {
             /***********************************************************************
@@ -31,14 +40,31 @@ public class NavX extends SubsystemBase {
 
     @Override
     public void periodic() {
-        double pitchAngleDegrees = ahrs.getPitch();
-        double rollAngleDegrees = ahrs.getRoll();
-        double headingAngleDegrees = ahrs.getAngle();
+        periodicDeltaTimer.stop();
+        double timeDelta = periodicDeltaTimer.get(); // in seconds.
+
+        // double newPitchAngleDegrees = ahrs.getPitch();
+        // double newRollAngleDegrees = ahrs.getRoll();
+        double newHeadingAngleDegrees = ahrs.getAngle();
+
+        // angular velocity in degrees per second.
+        // keep old value for now to compute the acceleration.
+        double newAngularVelocity = (newHeadingAngleDegrees - headingAngleDegrees) / timeDelta;
+
+        // angular acceleration degrees per second^2.
+        angularAcceleration = (newAngularVelocity - angularVelocity) / timeDelta;
+
+        // now set the current velocity.
+        angularVelocity = newAngularVelocity;
 
         // post to smart dashboard periodically
         SmartDashboard.putNumber("Pitch", pitchAngleDegrees);
         SmartDashboard.putNumber("Roll", rollAngleDegrees);
         SmartDashboard.putNumber("Heading", headingAngleDegrees);
+        SmartDashboard.putNumber("Angular Velocity", angularVelocity);
+        SmartDashboard.putNumber("Angular Acceleration", angularAcceleration);
+
+        periodicDeltaTimer.reset();
 
     }
 }
