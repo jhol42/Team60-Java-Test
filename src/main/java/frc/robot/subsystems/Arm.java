@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
 
-    private static int BlueMotorCanId = 3;
-    private static int RedMotorCanId = 4;
+    private static int BlueMotorCanId = 4;
+    private static int RedMotorCanId = 5;
     private static int LimitSwitchDIOPort = 9;
 
     private CANSparkMax blueMotor;
@@ -53,12 +53,14 @@ public class Arm extends SubsystemBase {
         redMotor.set(val);
     }
 
+    // Default command to handle joystick input for arm movement.
     public Command moveArm(DoubleSupplier blue, DoubleSupplier red)
     {
-        return Commands.run(() -> {
-            this.setBlueSpeed(blue.getAsDouble());
-            this.setRedSpeed(red.getAsDouble());
-        }, 
-        this);
+        return Commands.run(
+            () -> {
+                this.setBlueSpeed(blue.getAsDouble());
+                this.setRedSpeed(red.getAsDouble());
+            }, 
+            this);
     }
 }

@@ -26,10 +26,10 @@ public class DriveTrain extends SubsystemBase  {
   // private WPI_TalonSRX rbMotor  = new WPI_TalonSRX(RightBack);
 
   // SparkMax
-  private CANSparkMax lfMotor = new CANSparkMax(LeftFront, MotorType.kBrushed);
-  private CANSparkMax lbMotor  = new CANSparkMax(LeftBack, MotorType.kBrushed);
-  private CANSparkMax rfMotor = new CANSparkMax(RightFront, MotorType.kBrushed);
-  private CANSparkMax rbMotor  = new CANSparkMax(RightBack, MotorType.kBrushed);
+  private CANSparkMax lfMotor = new CANSparkMax(LeftFront, MotorType.kBrushless);
+  private CANSparkMax lbMotor  = new CANSparkMax(LeftBack, MotorType.kBrushless);
+  private CANSparkMax rfMotor = new CANSparkMax(RightFront, MotorType.kBrushless);
+  private CANSparkMax rbMotor  = new CANSparkMax(RightBack, MotorType.kBrushless);
 
   private MotorControllerGroup rightGroup = new MotorControllerGroup(rfMotor, rbMotor);
   private MotorControllerGroup leftGroup = new MotorControllerGroup(lfMotor, lbMotor);
