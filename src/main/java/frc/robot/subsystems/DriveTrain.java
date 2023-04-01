@@ -82,4 +82,11 @@ public class DriveTrain extends SubsystemBase  {
   public Command tankDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {
     return Commands.run(() -> drive.tankDrive(fwd.getAsDouble(), rot.getAsDouble()), this);
   }
+
+  public void stop() 
+  {
+    leftGroup.set(0);
+    rightGroup.set(0);
+  }
 }
+

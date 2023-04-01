@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AutoBalanceCmd;
 import frc.robot.commands.AutonomousCmd;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
@@ -13,6 +14,7 @@ import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,6 +33,9 @@ public class RobotContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController armController = new CommandXboxController(1);
+
+  // Triggers for commands
+  Trigger xButton;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 
@@ -57,7 +62,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() 
   {
-
+    driverController.x().whileTrue(new AutoBalanceCmd(drivetrain, arm, navX));
   }
 
   /**
