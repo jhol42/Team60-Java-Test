@@ -52,4 +52,9 @@ public class LimeLight extends SubsystemBase {
         SmartDashboard.putNumber("LimelightY", y);
         SmartDashboard.putNumber("LimelightArea", area);
     }
+
+    @Override
+    public void simulationPeriodic() {
+      // This method will be called once per scheduler run during simulation
+    }
 }
