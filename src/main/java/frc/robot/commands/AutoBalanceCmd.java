@@ -2,9 +2,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Arm;
+
+// Command used to auto balance the robot if it is
+// aligned with the dock.
 
 public class AutoBalanceCmd extends CommandBase 
 {
@@ -37,6 +41,10 @@ public class AutoBalanceCmd extends CommandBase
     @Override
     public void execute() 
     {
+        // TODO: move forward while navx pitch is static
+        // TODO: if navx pitch increases dock has been driven on to.
+        // TODO: drive forward until pitch acceleration is negative.
+        // TODO: PID controller?
         finished = true;
     }
 

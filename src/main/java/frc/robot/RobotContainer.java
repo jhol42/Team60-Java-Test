@@ -43,15 +43,10 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    drivetrain.setDefaultCommand(
-      drivetrain.tankDriveCommand(
-        () -> driverController.getLeftY(), 
-        () -> driverController.getRightY()));
+    drivetrain.initDefaultCommand(driverController);
+    arm.initDefaultCommand(armController);
 
-    arm.setDefaultCommand(
-      arm.moveArm(
-        () -> armController.getLeftY(), 
-        () -> armController.getRightY()));
+
   }
 
   /**
@@ -62,6 +57,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() 
   {
+    // Run the AutoCalanceCmd while the button is held down.
+    // If the button is release the command is terminated.
     driverController.x().whileTrue(new AutoBalanceCmd(drivetrain, arm, navX));
   }
 
