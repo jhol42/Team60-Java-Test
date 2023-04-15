@@ -27,8 +27,7 @@ public class AutonomousCmd extends CommandBase {
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() 
-    {
+    public void execute() {
         // TODO: Move forward.
         // TODO: activate command to drop object.
         // TODO: activate backup command.

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoBalanceCmd;
@@ -59,7 +60,10 @@ public class RobotContainer {
   {
     // Run the AutoCalanceCmd while the button is held down.
     // If the button is release the command is terminated.
-    driverController.x().whileTrue(new AutoBalanceCmd(drivetrain, arm, navX));
+    // TODO: The kp, ki, and kd are just made up right now.
+    driverController.x().whileTrue(new AutoBalanceCmd(
+      new PIDController(1, 0, 1),
+      drivetrain, arm, navX));
   }
 
   /**

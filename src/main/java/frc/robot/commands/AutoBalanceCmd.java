@@ -1,5 +1,9 @@
 package frc.robot.commands;
 
+import java.util.function.DoubleConsumer;
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
@@ -10,7 +14,7 @@ import frc.robot.subsystems.Arm;
 // Command used to auto balance the robot if it is
 // aligned with the dock.
 
-public class AutoBalanceCmd extends CommandBase 
+public class AutoBalanceCmd extends PIDCommand 
 {
     private DriveTrain driveTrain;
     private Arm arm;
@@ -19,10 +23,18 @@ public class AutoBalanceCmd extends CommandBase
     private boolean finished = true;
 
     public AutoBalanceCmd(
+            PIDController controller,
             DriveTrain driveTrain,
             Arm arm, 
             NavX navx) 
     {
+        super(
+            controller, 
+            ()->navx.getPitch(), //measurement. Lamba function to get pitch from navx.
+            ()->0, // Always goto zero pitch.  Lamba function always returns zero.
+            (val)->driveTrain.setSpeed(val), // Set speed from controller  The PIDController calls this (every 20ms?)
+            driveTrain, arm, navx);  // Subsystems used by this derived PIDCommand
+
         this.driveTrain = driveTrain;
         this.arm = arm;
         this.navx = navx;
