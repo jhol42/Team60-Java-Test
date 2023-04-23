@@ -3,7 +3,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.commands.DefaultDriveCommand;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import java.util.function.DoubleSupplier;
@@ -37,7 +39,7 @@ public class DriveTrain extends SubsystemBase {
   private MotorControllerGroup rightGroup = new MotorControllerGroup(rfMotor, rbMotor);
   private MotorControllerGroup leftGroup = new MotorControllerGroup(lfMotor, lbMotor);
 
-  private final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
+  public final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
 
   private final RelativeEncoder leftEncoder = lfMotor.getEncoder();
   private final RelativeEncoder rightEncoder = rfMotor.getEncoder();
@@ -80,10 +82,23 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+
+    // Set encoder positions.  These can be viewed in the other devices window
+    // in the robot simulator.
+    double speed = leftGroup.get();
+    double encoderInc = speed*.1;
+    leftEncoder.setPosition(
+      leftEncoder.getPosition() + encoderInc);
+
+    double rspeed = rightGroup.get();
+    encoderInc = rspeed*.1;
+    rightEncoder.setPosition(
+        rightEncoder.getPosition() + encoderInc);
   }
 
-  public Command tankDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {
-    return Commands.run(() -> drive.tankDrive(fwd.getAsDouble(), rot.getAsDouble()), this);
+  public Command tankDriveCommand(DoubleSupplier left, DoubleSupplier right) {
+
+    return new DefaultDriveCommand(this, left, right);
   }
 
   public void stop() {
@@ -99,5 +114,9 @@ public class DriveTrain extends SubsystemBase {
         this.tankDriveCommand(
             () -> driverController.getLeftY(),
             () -> driverController.getRightY()));
+  }
+
+  public Object setSpeed(double val) {
+    return null;
   }
 }
