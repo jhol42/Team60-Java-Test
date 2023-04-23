@@ -32,7 +32,7 @@ public class RobotContainer {
   private final NavX navX = new NavX();
 
   private final CommandXboxController driverController = new CommandXboxController(0);
-  private final CommandXboxController armController = new CommandXboxController(1);
+  // /private final CommandXboxController armController = new CommandXboxController(1);
 
   // Triggers for commands
   Trigger xButton;
@@ -44,7 +44,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     drivetrain.initDefaultCommand(driverController);
-    arm.initDefaultCommand(armController);
+    //arm.initDefaultCommand(armController);
 
 
   }
