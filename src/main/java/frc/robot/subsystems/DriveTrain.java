@@ -96,11 +96,6 @@ public class DriveTrain extends SubsystemBase {
         rightEncoder.getPosition() + encoderInc);
   }
 
-  public Command tankDriveCommand(DoubleSupplier left, DoubleSupplier right) {
-
-    return new DefaultDriveCommand(this, left, right);
-  }
-
   public void stop() {
     leftGroup.set(0);
     rightGroup.set(0);
@@ -111,9 +106,10 @@ public class DriveTrain extends SubsystemBase {
     // to set motor speeds.
 
     this.setDefaultCommand(
-        this.tankDriveCommand(
-            () -> driverController.getLeftY(),
-            () -> driverController.getRightY()));
+        new DefaultDriveCommand(
+          this,
+          () -> driverController.getLeftY(),
+          () -> driverController.getRightY()));
   }
 
   public Object setSpeed(double val) {

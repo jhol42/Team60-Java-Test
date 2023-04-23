@@ -28,10 +28,14 @@ public class DefaultDriveCommand extends CommandBase {
    * @param forward The control input for driving forwards/backwards
    * @param rotation The control input for turning
    */
-  public DefaultDriveCommand(DriveTrain subsystem, DoubleSupplier forward, DoubleSupplier rotation) {
+  public DefaultDriveCommand(
+    DriveTrain subsystem, 
+    DoubleSupplier leftControlerValue, 
+    DoubleSupplier rightControlerValue) {
+        
     drive = subsystem;
-    leftVal = forward;
-    rightVal = rotation;
+    leftVal = leftControlerValue;
+    rightVal = rightControlerValue;
     addRequirements(drive);
   }
 

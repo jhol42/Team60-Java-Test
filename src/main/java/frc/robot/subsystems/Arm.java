@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.DefaultArmCommand;
 
 public class Arm extends SubsystemBase {
 
@@ -36,41 +37,13 @@ public class Arm extends SubsystemBase {
         limitSwitch = new DigitalInput(LimitSwitchDIOPort);
     }
 
-    public void setBlueSpeed(double joystickVal)
-    {
-        // TODO: Scale value [-1, 1]?
-        double scale = 1.0;
-        double val = joystickVal * scale;
-        blueMotor.set(val);
-    }
-
-    public void setRedSpeed(double joystickVal)
-    {
-        // TODO: Scale value [-1, 1]?
-        double scale = 1.0;
-        double val = joystickVal * scale;
-        if(limitSwitch.get())
-            val = 0;
-        redMotor.set(val);
-    }
-
-    // Default command to handle joystick input for arm movement.
-    public Command moveArm(DoubleSupplier blue, DoubleSupplier red)
-    {
-        return Commands.run(
-            () -> {
-                this.setBlueSpeed(blue.getAsDouble());
-                this.setRedSpeed(red.getAsDouble());
-            }, 
-            this);
-    }
-
     public void initDefaultCommand(CommandXboxController armController)
     {
         this.setDefaultCommand(
-            this.moveArm(
-              () -> armController.getLeftY(), 
-              () -> armController.getRightY()));
+            new DefaultArmCommand(
+                this, 
+                () -> armController.getLeftY(),
+                () -> armController.getRightY()));
     }
 
     @Override
