@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import java.util.function.DoubleSupplier;
@@ -23,6 +25,7 @@ public class Arm extends SubsystemBase {
     private Encoder blueEncoder;
     private Encoder redEncoder;
     private DigitalInput limitSwitch;
+    private Solenoid grabberSolenoid;
 
 
     public Arm()
@@ -35,6 +38,10 @@ public class Arm extends SubsystemBase {
         redMotor.restoreFactoryDefaults();
 
         limitSwitch = new DigitalInput(LimitSwitchDIOPort);
+
+        // TODO: figure out what type of solenoid.
+        // TODO: Add command that trigger closing of the grabber when button is pressed. 
+        grabberSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 1);
     }
 
     public void initDefaultCommand(CommandXboxController armController)
