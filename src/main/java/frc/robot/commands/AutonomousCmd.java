@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Arm;
 
+// Command called at the start of autonomous mode.
 public class AutonomousCmd extends CommandBase {
     private DriveTrain driveTrain;
     private Arm arm;

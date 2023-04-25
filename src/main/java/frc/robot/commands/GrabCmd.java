@@ -7,9 +7,8 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Arm;
 
-// Command used to auto balance the robot if it is
-// aligned with the dock.
 
+// Simple command to close and release the grabber.
 public class GrabCmd extends CommandBase 
 {
     private Arm arm;
