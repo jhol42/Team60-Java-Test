@@ -39,9 +39,9 @@ public class Arm extends SubsystemBase {
 
         limitSwitch = new DigitalInput(LimitSwitchDIOPort);
 
-        // TODO: figure out what type of solenoid.
+        // TODO: What channel?
         // TODO: Add command that trigger closing of the grabber when button is pressed. 
-        grabberSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 1);
+        grabberSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
     }
 
     public void initDefaultCommand(CommandXboxController armController)

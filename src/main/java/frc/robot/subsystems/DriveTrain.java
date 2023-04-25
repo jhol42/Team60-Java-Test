@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.DefaultDriveCommand;
@@ -43,6 +45,10 @@ public class DriveTrain extends SubsystemBase {
 
   private final RelativeEncoder leftEncoder = lfMotor.getEncoder();
   private final RelativeEncoder rightEncoder = rfMotor.getEncoder();
+
+  // Todo: add command and action to shift.
+  private Solenoid shifterSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
+
 
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
