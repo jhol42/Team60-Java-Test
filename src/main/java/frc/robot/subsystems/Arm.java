@@ -57,4 +57,12 @@ public class Arm extends SubsystemBase {
     public void simulationPeriodic() {
       // This method will be called once per scheduler run during simulation
     }
+
+    public void grab(){
+        grabberSolenoid.set(true);
+    }
+
+    public void grabRelease(){
+        grabberSolenoid.set(false);
+    }
 }

@@ -32,10 +32,11 @@ public class RobotContainer {
   private final NavX navX = new NavX();
 
   private final CommandXboxController driverController = new CommandXboxController(0);
-  // /private final CommandXboxController armController = new CommandXboxController(1);
+  private final CommandXboxController armController = new CommandXboxController(1);
 
   // Triggers for commands
   Trigger xButton;
+  Trigger armRightTrigger;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 
@@ -45,8 +46,6 @@ public class RobotContainer {
 
     drivetrain.initDefaultCommand(driverController);
     //arm.initDefaultCommand(armController);
-
-
   }
 
   /**
@@ -60,6 +59,9 @@ public class RobotContainer {
     // Run the AutoCalanceCmd while the button is held down.
     // If the button is release the command is terminated.
     driverController.x().whileTrue(new AutoBalanceCmd(drivetrain, arm, navX));
+
+    // Close the grabber when the right trigger on the armController is pressed.
+    armController.rightTrigger().whileTrue(new AutoBalanceCmd(drivetrain, arm, navX));
   }
 
   /**
